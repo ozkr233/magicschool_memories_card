@@ -2,6 +2,8 @@
   "id": "strixhaven-memories",
   "title": "Strixhaven Memories",
   "description": "Adds a Strixhaven student sheet (Relationships, Report Cards, Extracurriculars, Job) to D&D 5e character actors.",
+  "mainifest" : "https://raw.githubusercontent.com/ozkr233/magicschool_memories_card/refs/heads/master/module.json",
+  "download" : "https://github.com/ozkr233/magicschool_memories_card/archive/refs/heads/master.zip",
   "version": "1.0.0",
   "compatibility": {
     "minimum": "13",
