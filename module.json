@@ -1,0 +1,46 @@
+{
+  "id": "strixhaven-memories",
+  "title": "Strixhaven Memories",
+  "description": "Adds a Strixhaven student sheet (Relationships, Report Cards, Extracurriculars, Job) to D&D 5e character actors.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13",
+    "maximum": "14"
+  },
+  "authors": [
+    {
+      "name": "Oscar"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "5.0.0",
+          "verified": "5.3.0"
+        }
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/strixhaven-memories.js"
+  ],
+  "styles": [
+    "styles/strixhaven-memories.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json"
+    }
+  ]
+}

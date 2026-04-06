@@ -1,0 +1,566 @@
+/* Strixhaven Memories — parchment-style sheet
+   High-specificity rules to override dnd5e theme. */
+
+.application.strixhaven-memories {
+  --sm-ink: #1a1a1a;
+  --sm-ink-soft: #4a4a4a;
+  --sm-paper: #f4f1e8;
+  --sm-paper-dark: #e8e3d3;
+  --sm-border: #2a2a2a;
+  --sm-accent: #6b4423;
+  --sm-accent-light: #a87040;
+  color-scheme: light;
+}
+
+.application.strixhaven-memories .window-content {
+  background:
+    radial-gradient(ellipse at top left, rgba(139,90,43,0.08), transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(139,90,43,0.06), transparent 60%),
+    var(--sm-paper) !important;
+  color: var(--sm-ink) !important;
+  font-family: "Signika", "Modesto Condensed", serif;
+  padding: 16px 18px;
+}
+
+.application.strixhaven-memories .sm-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding-right: 4px;
+  color: var(--sm-ink);
+}
+
+/* ============ SECTION HEADERS (boxed titles) ============ */
+.application.strixhaven-memories .sm-section {
+  border: 2px solid var(--sm-border);
+  background: rgba(255, 255, 255, 0.45);
+  padding: 18px 16px 14px;
+  position: relative;
+  border-radius: 2px;
+}
+
+.application.strixhaven-memories .sm-header {
+  display: inline-block;
+  border: 2px solid var(--sm-border) !important;
+  padding: 5px 16px 4px;
+  background: var(--sm-paper) !important;
+  position: absolute;
+  top: -14px;
+  left: 12px;
+  margin: 0;
+}
+
+.application.strixhaven-memories .sm-header h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: "Modesto Condensed", "Signika", serif !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  color: var(--sm-ink) !important;
+  background: none !important;
+  text-shadow: none !important;
+  line-height: 1.2 !important;
+}
+
+/* Year 1-4 sub-headers */
+.application.strixhaven-memories .sm-year h3 {
+  display: inline-block;
+  background: var(--sm-paper) !important;
+  border: 1.5px solid var(--sm-border) !important;
+  padding: 3px 12px !important;
+  margin: 0 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  color: var(--sm-ink) !important;
+  font-family: "Modesto Condensed", "Signika", serif !important;
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  text-shadow: none !important;
+  line-height: 1.2 !important;
+}
+
+/* ============ RELATIONSHIPS ============ */
+.application.strixhaven-memories .sm-rel-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 0.6fr 0.9fr 1.8fr 0.4fr 1.4fr 0.3fr;
+  gap: 10px;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.25);
+}
+
+.application.strixhaven-memories .sm-rel-head {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--sm-ink-soft) !important;
+  border-bottom: 2px solid var(--sm-border);
+  font-weight: 700;
+}
+
+/* ============ SELECTS ============ */
+.application.strixhaven-memories select {
+  background: var(--sm-paper) !important;
+  border: 1px solid rgba(0,0,0,0.35) !important;
+  color: var(--sm-ink) !important;
+  font-family: inherit !important;
+  font-size: 0.78rem !important;
+  padding: 2px 4px !important;
+  border-radius: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  cursor: pointer;
+}
+
+.application.strixhaven-memories select:focus {
+  outline: none !important;
+  border-color: var(--sm-accent) !important;
+}
+
+.application.strixhaven-memories select.sm-skill-select[multiple] {
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 80px;
+  overflow-y: auto;
+  font-size: 0.7rem !important;
+}
+
+.application.strixhaven-memories select.sm-skill-select[multiple] option {
+  padding: 1px 4px;
+}
+
+.application.strixhaven-memories select.sm-skill-select[multiple] option:checked {
+  background: var(--sm-accent) linear-gradient(0deg, var(--sm-accent) 0%, var(--sm-accent) 100%) !important;
+  color: var(--sm-paper) !important;
+}
+
+/* ============ TEXT INPUTS / NUMBER INPUTS ============ */
+.application.strixhaven-memories input[type="text"],
+.application.strixhaven-memories input[type="number"],
+.application.strixhaven-memories textarea {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(0,0,0,0.35) !important;
+  padding: 3px 5px !important;
+  font-family: inherit !important;
+  color: var(--sm-ink) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-size: 0.85rem !important;
+  min-height: auto !important;
+  height: auto !important;
+}
+
+.application.strixhaven-memories input[type="text"]:focus,
+.application.strixhaven-memories input[type="number"]:focus,
+.application.strixhaven-memories textarea:focus {
+  outline: none !important;
+  border-bottom-color: var(--sm-accent) !important;
+  background: rgba(255,255,255,0.6) !important;
+  box-shadow: 0 1px 0 0 var(--sm-accent) !important;
+}
+
+.application.strixhaven-memories input::placeholder,
+.application.strixhaven-memories textarea::placeholder {
+  color: rgba(0,0,0,0.35) !important;
+  font-style: italic;
+}
+
+/* ============ COLUMN LAYOUT (obsolete, kept for safety) ============ */
+.application.strixhaven-memories .sm-columns {
+  display: block;
+}
+
+.application.strixhaven-memories .sm-right {
+  display: contents;
+}
+
+/* ============ REPORT CARDS ============ */
+.application.strixhaven-memories .sm-year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.application.strixhaven-memories .sm-year {
+  border: 1.5px solid var(--sm-border);
+  padding: 18px 10px 10px;
+  background: rgba(255,255,255,0.4);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ============ EXAM CARDS ============ */
+.application.strixhaven-memories .sm-exam {
+  border: 1px solid rgba(0,0,0,0.3);
+  border-left: 3px solid var(--sm-ink-soft);
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.application.strixhaven-memories .sm-exam.sm-result-passed {
+  border-left-color: #4a7c4e;
+  background: rgba(230, 245, 232, 0.55);
+}
+
+.application.strixhaven-memories .sm-exam.sm-result-aced {
+  border-left-color: #b8860b;
+  background: rgba(252, 245, 220, 0.65);
+  box-shadow: inset 0 0 0 1px rgba(184, 134, 11, 0.2);
+}
+
+.application.strixhaven-memories .sm-exam.sm-result-failed {
+  border-left-color: #8b3a3a;
+  background: rgba(250, 230, 230, 0.4);
+}
+
+.application.strixhaven-memories .sm-exam-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.application.strixhaven-memories .sm-class-label {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--sm-ink);
+}
+
+.application.strixhaven-memories .sm-result-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  color: var(--sm-ink-soft);
+}
+
+.application.strixhaven-memories .sm-result-passed .sm-result-badge {
+  color: #2d5a30;
+}
+
+.application.strixhaven-memories .sm-result-aced .sm-result-badge {
+  color: #8b6508;
+  background: rgba(255, 223, 128, 0.3);
+}
+
+.application.strixhaven-memories .sm-result-failed .sm-result-badge {
+  color: #7a2e2e;
+}
+
+.application.strixhaven-memories .sm-exam-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.application.strixhaven-memories .sm-exam-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.application.strixhaven-memories .sm-exam-field > span {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--sm-ink-soft);
+  font-weight: 700;
+}
+
+.application.strixhaven-memories .sm-exam-field select {
+  width: 100%;
+  font-size: 0.72rem !important;
+}
+
+.application.strixhaven-memories .sm-exam-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: var(--sm-ink-soft);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.application.strixhaven-memories .sm-exam-check span {
+  white-space: nowrap;
+}
+
+.application.strixhaven-memories .sm-exam-tests {
+  padding-top: 4px;
+  border-top: 1px dashed rgba(0,0,0,0.18);
+}
+
+.application.strixhaven-memories .sm-rerolls-badge {
+  margin-left: auto;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--sm-accent);
+  padding: 2px 5px;
+  border: 1px dashed var(--sm-accent);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.application.strixhaven-memories .sm-notime {
+  border: 1px dashed var(--sm-accent);
+  padding: 6px 8px;
+  background: rgba(255, 240, 220, 0.4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.application.strixhaven-memories .sm-notime-label {
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--sm-accent);
+  font-style: italic;
+}
+
+.application.strixhaven-memories .sm-notime input[type="text"] {
+  flex: 1;
+  min-width: 100px;
+  font-size: 0.72rem !important;
+  font-style: italic;
+  color: var(--sm-ink-soft) !important;
+}
+
+/* ============ GRADUATION ============ */
+.application.strixhaven-memories .sm-graduation {
+  padding-top: 22px;
+}
+
+.application.strixhaven-memories .sm-graduation textarea {
+  width: 100%;
+  background: transparent !important;
+  border: 1px dashed rgba(0,0,0,0.35) !important;
+  font-family: inherit;
+  padding: 8px 10px !important;
+  resize: vertical;
+  color: var(--sm-ink) !important;
+  min-height: 60px !important;
+  margin-top: 4px;
+}
+
+/* ============ EXTRACURRICULARS ============ */
+.application.strixhaven-memories .sm-ext-head,
+.application.strixhaven-memories .sm-ext-row {
+  display: grid;
+  grid-template-columns: 2fr 0.6fr 1.3fr 1.3fr 0.4fr;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.25);
+}
+
+.application.strixhaven-memories .sm-ext-head {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: var(--sm-ink-soft) !important;
+  border-bottom: 2px solid var(--sm-border);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ============ JOB ============ */
+.application.strixhaven-memories .sm-job-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1.3fr 1fr;
+  gap: 18px;
+  margin-top: 4px;
+}
+
+.application.strixhaven-memories .sm-job .sm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.application.strixhaven-memories .sm-job .sm-field span {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: var(--sm-ink-soft) !important;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+/* ============ CHECKBOXES (force small & visible) ============ */
+.application.strixhaven-memories input[type="checkbox"] {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  border: 1.5px solid var(--sm-border) !important;
+  background: var(--sm-paper) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  justify-self: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  flex: 0 0 18px !important;
+}
+
+.application.strixhaven-memories input[type="checkbox"]::before {
+  content: none !important;
+  display: none !important;
+}
+
+.application.strixhaven-memories input[type="checkbox"]:checked {
+  background: var(--sm-paper) !important;
+}
+
+.application.strixhaven-memories input[type="checkbox"]:checked::after {
+  content: "\2713" !important;
+  display: flex !important;
+  position: absolute !important;
+  inset: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  color: var(--sm-accent) !important;
+  line-height: 1 !important;
+}
+
+/* ============ BUTTONS ============ */
+.application.strixhaven-memories .sm-btn {
+  margin-top: 10px;
+  background: var(--sm-paper-dark) !important;
+  border: 1.5px solid var(--sm-border) !important;
+  padding: 5px 14px !important;
+  font-family: inherit !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  color: var(--sm-ink) !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  box-shadow: none !important;
+  font-weight: 700;
+}
+
+.application.strixhaven-memories .sm-btn:hover {
+  background: var(--sm-accent) !important;
+  color: var(--sm-paper) !important;
+}
+
+.application.strixhaven-memories .sm-btn-mini {
+  background: transparent !important;
+  border: none !important;
+  color: var(--sm-ink-soft) !important;
+  cursor: pointer !important;
+  padding: 2px !important;
+  width: auto !important;
+  box-shadow: none !important;
+  font-size: 0.9rem;
+}
+
+.application.strixhaven-memories .sm-btn-mini:hover {
+  color: #8b0000 !important;
+  background: transparent !important;
+}
+
+.application.strixhaven-memories .sm-btn-danger:hover {
+  background: #8b0000 !important;
+  color: var(--sm-paper) !important;
+  border-color: #8b0000 !important;
+}
+
+.application.strixhaven-memories .sm-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  margin-top: 8px;
+  border-top: 1px dashed rgba(0,0,0,0.25);
+}
+
+/* ============ STUDENT DICE ============ */
+.application.strixhaven-memories .sm-hint {
+  margin: 0 0 10px 0;
+  padding: 0;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--sm-ink-soft);
+  line-height: 1.4;
+}
+
+.application.strixhaven-memories .sm-dice-head,
+.application.strixhaven-memories .sm-dice-row {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 2fr 0.3fr;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.25);
+}
+
+.application.strixhaven-memories .sm-dice-head {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: var(--sm-ink-soft) !important;
+  border-bottom: 2px solid var(--sm-border);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ============ STRIXHAVEN BUTTON ON THE CHARACTER SHEET SIDEBAR ============ */
+/* Injected into the vertical tab strip on the right side of the dnd5e v2 sheet. */
+.strixhaven-memories-sidebar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: var(--dnd5e-color-gold, #c9aa71);
+  cursor: pointer;
+  padding: 0;
+  margin: 4px auto;
+  font-size: 1.05rem;
+  opacity: 0.78;
+  transition: opacity 0.15s, color 0.15s, transform 0.15s;
+}
+
+.strixhaven-memories-sidebar-btn:hover {
+  opacity: 1;
+  color: #f5d98a;
+  transform: scale(1.1);
+  text-shadow: 0 0 6px rgba(245, 217, 138, 0.6);
+}
+
+.strixhaven-memories-sidebar-btn i {
+  pointer-events: none;
+}
