@@ -1,0 +1,228 @@
+<div class="sm-body">
+
+  {{!-- ============ RELATIONSHIPS ============ --}}
+  <section class="sm-section sm-relationships">
+    <header class="sm-header"><h2>{{localize "SM.Relationships"}}</h2></header>
+    <div class="sm-rel-grid sm-rel-head">
+      <span>{{localize "SM.Name"}}</span>
+      <span>{{localize "SM.Points"}}</span>
+      <span>{{localize "SM.Type"}}</span>
+      <span>{{localize "SM.Details"}}</span>
+      <span title="{{localize 'SM.Inspiration'}}">{{localize "SM.InspShort"}}</span>
+      <span>{{localize "SM.BoonBane"}}</span>
+      <span></span>
+    </div>
+    {{#each data.relationships as |rel i|}}
+    <div class="sm-rel-grid sm-rel-row">
+      <input type="text" name="relationships.{{i}}.name" value="{{rel.name}}" placeholder="NPC name" />
+      <input type="number" name="relationships.{{i}}.points" value="{{rel.points}}" />
+      <select name="relationships.{{i}}.type">
+        {{selectOptions ../relationshipTypes selected=rel.type}}
+      </select>
+      <input type="text" name="relationships.{{i}}.details" value="{{rel.details}}" placeholder="Notes..." />
+      <input type="checkbox" name="relationships.{{i}}.inspiration" {{checked rel.inspiration}} title="Beloved Inspiration available" />
+      <input type="text" name="relationships.{{i}}.boonBane" value="{{rel.boonBane}}" placeholder="Boon / Bane" />
+      <button type="button" class="sm-btn-mini" data-action="removeRelationship" data-index="{{i}}" title="Remove">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    {{/each}}
+    <button type="button" class="sm-btn" data-action="addRelationship">
+      <i class="fa-solid fa-plus"></i> {{localize "SM.AddRelationship"}}
+    </button>
+  </section>
+
+  {{!-- ============ REPORT CARDS ============ --}}
+  <section class="sm-section sm-reports">
+    <header class="sm-header"><h2>{{localize "SM.ReportCards"}}</h2></header>
+
+    <div class="sm-year-grid">
+      {{#each data.reportCards as |year yearKey|}}
+      <div class="sm-year">
+        <h3>{{year.label}}</h3>
+        {{#each year.classes as |cls|}}
+        <div class="sm-exam sm-result-{{cls.result}}">
+          <div class="sm-exam-head">
+            <span class="sm-class-label">{{cls.label}}</span>
+            <span class="sm-result-badge">{{cls.resultLabel}}</span>
+          </div>
+          <div class="sm-exam-row">
+            <label class="sm-exam-field">
+              <span>{{localize "SM.Studying"}}</span>
+              <select name="reportCards.{{yearKey}}.classes.{{@index}}.studying">
+                {{selectOptions ../../studyingOptions selected=cls.studying}}
+              </select>
+            </label>
+            <label class="sm-exam-check" title="Studying success">
+              <input type="checkbox" name="reportCards.{{yearKey}}.classes.{{@index}}.studyingSuccess" {{checked cls.studyingSuccess}} />
+              <span>{{localize "SM.Success"}}</span>
+            </label>
+          </div>
+          <div class="sm-exam-row sm-exam-tests">
+            <label class="sm-exam-check">
+              <input type="checkbox" name="reportCards.{{yearKey}}.classes.{{@index}}.test1" {{checked cls.test1}} />
+              <span>{{localize "SM.Test1"}}</span>
+            </label>
+            <label class="sm-exam-check">
+              <input type="checkbox" name="reportCards.{{yearKey}}.classes.{{@index}}.test2" {{checked cls.test2}} />
+              <span>{{localize "SM.Test2"}}</span>
+            </label>
+            {{#if cls.rerollsEarned}}
+            <span class="sm-rerolls-badge" title="Rerolls earned from Studying">
+              +{{cls.rerollsEarned}} {{localize "SM.Rerolls"}}
+            </span>
+            {{/if}}
+          </div>
+        </div>
+        {{/each}}
+
+        {{#if year.noTime}}
+        <div class="sm-notime">
+          <label class="sm-notime-label">{{localize "SM.NoTime"}}</label>
+          <label class="sm-exam-check">
+            <input type="checkbox" name="reportCards.{{yearKey}}.noTime.value" {{checked year.noTime.value}} />
+            <span>{{localize "SM.Success"}}</span>
+          </label>
+          <input type="text" name="reportCards.{{yearKey}}.noTime.skills" value="{{year.noTime.skills}}" />
+        </div>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  {{!-- ============ COURSE SCHEDULE ============ --}}
+  <section class="sm-section sm-schedule">
+    <header class="sm-header"><h2>{{localize "SM.Schedule"}}</h2></header>
+    <div class="sm-sched-head">
+      <span>{{localize "SM.SchedYear"}}</span>
+      <span>{{localize "SM.SchedCourse"}}</span>
+      <span>{{localize "SM.SchedInstructor"}}</span>
+      <span>{{localize "SM.SchedDay"}}</span>
+      <span>{{localize "SM.SchedTime"}}</span>
+      <span>{{localize "SM.SchedLocation"}}</span>
+      <span>{{localize "SM.SchedNotes"}}</span>
+      <span></span>
+    </div>
+    {{#each data.schedule as |entry i|}}
+    <div class="sm-sched-row">
+      <select name="schedule.{{i}}.year">
+        {{selectOptions ../yearOptions selected=entry.year}}
+      </select>
+      <input type="text" name="schedule.{{i}}.course" value="{{entry.course}}" placeholder="Course name" />
+      <input type="text" name="schedule.{{i}}.instructor" value="{{entry.instructor}}" placeholder="Professor" />
+      <input type="text" name="schedule.{{i}}.day" value="{{entry.day}}" placeholder="e.g. Mon/Wed" />
+      <input type="text" name="schedule.{{i}}.time" value="{{entry.time}}" placeholder="e.g. 9:00 AM" />
+      <input type="text" name="schedule.{{i}}.location" value="{{entry.location}}" placeholder="Room / Hall" />
+      <input type="text" name="schedule.{{i}}.notes" value="{{entry.notes}}" placeholder="Notes..." />
+      <button type="button" class="sm-btn-mini" data-action="removeScheduleEntry" data-index="{{i}}" title="Remove">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    {{/each}}
+    <button type="button" class="sm-btn" data-action="addScheduleEntry">
+      <i class="fa-solid fa-plus"></i> {{localize "SM.AddScheduleEntry"}}
+    </button>
+  </section>
+
+  {{!-- ============ TWO-COLUMN BOTTOM AREA ============ --}}
+  <div class="sm-bottom-columns">
+
+    {{!-- LEFT COLUMN --}}
+    <div class="sm-bottom-left">
+
+      {{!-- ============ EXTRACURRICULARS ============ --}}
+      <section class="sm-section sm-extracurriculars">
+        <header class="sm-header"><h2>{{localize "SM.Extracurriculars"}}</h2></header>
+        <div class="sm-ext-head">
+          <span>{{localize "SM.Name"}}</span>
+          <span>{{localize "SM.D4"}}</span>
+          <span>{{localize "SM.Skills"}}</span>
+          <span>{{localize "SM.Member"}}</span>
+          <span></span>
+        </div>
+        {{#each data.extracurriculars as |ext i|}}
+        <div class="sm-ext-row">
+          <input type="text" name="extracurriculars.{{i}}.name" value="{{ext.name}}" placeholder="Club name" />
+          <input type="checkbox" name="extracurriculars.{{i}}.d4" {{checked ext.d4}} title="Checked = d4 available, unchecked = spent" />
+          <select name="extracurriculars.{{i}}.skills" multiple size="1" class="sm-skill-select">
+            {{selectOptions ../skillOptions selected=ext.skills}}
+          </select>
+          <input type="text" name="extracurriculars.{{i}}.member" value="{{ext.member}}" placeholder="NPC member" />
+          <button type="button" class="sm-btn-mini" data-action="removeExtracurricular" data-index="{{i}}" title="Remove">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        {{/each}}
+        <button type="button" class="sm-btn" data-action="addExtracurricular">
+          <i class="fa-solid fa-plus"></i> {{localize "SM.AddExtracurricular"}}
+        </button>
+      </section>
+
+      {{!-- ============ JOB ============ --}}
+      <section class="sm-section sm-job">
+        <header class="sm-header"><h2>{{localize "SM.Job"}}</h2></header>
+        <div class="sm-job-grid">
+          <label class="sm-field">
+            <span>{{localize "SM.Employer"}}</span>
+            <input type="text" name="job.employer" value="{{data.job.employer}}" />
+          </label>
+          <label class="sm-field">
+            <span>{{localize "SM.JobTitle"}}</span>
+            <input type="text" name="job.job" value="{{data.job.job}}" />
+          </label>
+          <label class="sm-field">
+            <span>{{localize "SM.Coworker"}}</span>
+            <input type="text" name="job.coworker" value="{{data.job.coworker}}" />
+          </label>
+        </div>
+      </section>
+
+    </div>
+
+    {{!-- RIGHT COLUMN --}}
+    <div class="sm-bottom-right">
+
+      {{!-- ============ STUDENT DICE ============ --}}
+      <section class="sm-section sm-student-dice">
+        <header class="sm-header"><h2>{{localize "SM.StudentDice"}}</h2></header>
+        <p class="sm-hint">{{localize "SM.StudentDiceHint"}}</p>
+        <div class="sm-dice-head">
+          <span>{{localize "SM.D4"}}</span>
+          <span>{{localize "SM.Skills"}}</span>
+          <span>{{localize "SM.Source"}}</span>
+          <span></span>
+        </div>
+        {{#each data.studentDice as |die i|}}
+        <div class="sm-dice-row">
+          <input type="checkbox" name="studentDice.{{i}}.available" {{checked die.available}} title="Checked = available, unchecked = spent" />
+          <select name="studentDice.{{i}}.skills" multiple size="1" class="sm-skill-select">
+            {{selectOptions ../skillOptions selected=die.skills}}
+          </select>
+          <input type="text" name="studentDice.{{i}}.source" value="{{die.source}}" placeholder="e.g. Year 1 Exam #2" />
+          <button type="button" class="sm-btn-mini" data-action="removeStudentDie" data-index="{{i}}" title="Remove">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        {{/each}}
+        <button type="button" class="sm-btn" data-action="addStudentDie">
+          <i class="fa-solid fa-plus"></i> {{localize "SM.AddStudentDie"}}
+        </button>
+      </section>
+
+      {{!-- ============ GRADUATION ============ --}}
+      <section class="sm-section sm-graduation">
+        <header class="sm-header"><h2>{{localize "SM.Graduation"}}</h2></header>
+        <textarea name="graduation" rows="3" placeholder="{{localize 'SM.GraduationPlaceholder'}}">{{data.graduation}}</textarea>
+      </section>
+
+    </div>
+  </div>
+
+  <footer class="sm-footer">
+    <button type="button" class="sm-btn sm-btn-danger" data-action="reset">
+      <i class="fa-solid fa-rotate-left"></i> {{localize "SM.Reset"}}
+    </button>
+  </footer>
+
+</div>
