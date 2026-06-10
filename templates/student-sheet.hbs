@@ -220,6 +220,25 @@
   </div>
 
   <footer class="sm-footer">
+    <div class="sm-color-picker">
+      <span class="sm-color-label"><i class="fa-solid fa-palette"></i> {{localize "SM.SheetColor"}}</span>
+      <div class="sm-color-swatches">
+        {{#each colorPresets as |preset|}}
+        {{#if (eq preset.group "sep")}}
+        <span class="sm-color-sep"></span>
+        {{else}}
+        <button
+          type="button"
+          class="sm-color-swatch {{#if (eq preset.value ../bgColor)}}active{{/if}} sm-swatch-{{preset.group}}"
+          data-action="changeSheetColor"
+          data-color="{{preset.value}}"
+          title="{{preset.label}}"
+          style="{{#if preset.css}}background-color: {{preset.css}};{{else}}background: linear-gradient(135deg, #1a1816, #22201d);{{/if}}"
+        ></button>
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
     <button type="button" class="sm-btn sm-btn-danger" data-action="reset">
       <i class="fa-solid fa-rotate-left"></i> {{localize "SM.Reset"}}
     </button>

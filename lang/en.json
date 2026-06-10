@@ -45,5 +45,6 @@
   "SM.SchedLocation": "Location",
   "SM.SchedNotes": "Notes",
   "SM.AddScheduleEntry": "Add Course",
+  "SM.SheetColor": "Theme",
   "SM.Reset": "Reset Sheet"
 }

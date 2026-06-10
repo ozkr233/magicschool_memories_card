@@ -64,9 +64,20 @@ function makeYearData(classCount, hasNoTime = false) {
 class StrixhavenStudentSheet extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
 ) {
+  /** @type {Map<string, StrixhavenStudentSheet>} Open sheets keyed by actor ID */
+  static _instances = new Map();
+
   constructor(actor, options = {}) {
     super(options);
     this.actor = actor;
+    // Register this instance
+    StrixhavenStudentSheet._instances.set(actor.id, this);
+  }
+
+  /** Remove from singleton map when the window is closed */
+  async _onClose(options) {
+    StrixhavenStudentSheet._instances.delete(this.actor.id);
+    return super._onClose(options);
   }
 
   static DEFAULT_OPTIONS = {
@@ -96,6 +107,7 @@ class StrixhavenStudentSheet extends foundry.applications.api.HandlebarsApplicat
       removeStudentDie: StrixhavenStudentSheet.#onRemoveStudentDie,
       addScheduleEntry: StrixhavenStudentSheet.#onAddScheduleEntry,
       removeScheduleEntry: StrixhavenStudentSheet.#onRemoveScheduleEntry,
+      changeSheetColor: StrixhavenStudentSheet.#onChangeSheetColor,
       reset: StrixhavenStudentSheet.#onReset
     }
   };
@@ -172,10 +184,31 @@ class StrixhavenStudentSheet extends foundry.applications.api.HandlebarsApplicat
       skillOptions[key] = game.i18n.localize(label);
     }
 
+    // Load the user's chosen background color for this module
+    const bgColor = game.user.getFlag(MODULE_ID, "sheetBgColor") || "";
+
     return {
       actor: this.actor,
       data,
       skillOptions,
+      bgColor,
+      colorPresets: [
+        { value: "",        label: "Default",    css: "",        group: "dark" },
+        { value: "#1a1816", label: "Charcoal",   css: "#1a1816", group: "dark" },
+        { value: "#1a1520", label: "Plum",       css: "#1a1520", group: "dark" },
+        { value: "#131a1f", label: "Midnight",   css: "#131a1f", group: "dark" },
+        { value: "#1a1d13", label: "Forest",     css: "#1a1d13", group: "dark" },
+        { value: "#1f1713", label: "Espresso",   css: "#1f1713", group: "dark" },
+        { value: "#181318", label: "Shadow",     css: "#181318", group: "dark" },
+        { value: "#131519", label: "Slate",      css: "#131519", group: "dark" },
+        { value: "#1a1310", label: "Ember",      css: "#1a1310", group: "dark" },
+        { value: "sep",     label: "",           css: "",        group: "sep"  },
+        { value: "#f4f1e8", label: "Parchment",  css: "#f4f1e8", group: "light" },
+        { value: "#f5f3ef", label: "Ivory",      css: "#f5f3ef", group: "light" },
+        { value: "#eef0f2", label: "Pearl",      css: "#eef0f2", group: "light" },
+        { value: "#ece8f0", label: "Lavender",   css: "#ece8f0", group: "light" },
+        { value: "#e8ede6", label: "Sage",       css: "#e8ede6", group: "light" }
+      ],
       studyingOptions: {
         skipped: "Skipped",
         studied: "Studied",
@@ -184,6 +217,7 @@ class StrixhavenStudentSheet extends foundry.applications.api.HandlebarsApplicat
       relationshipTypes: {
         "": "—",
         friend: "Friend",
+        acquaintance: "Acquaintance",
         rival: "Rival",
         beloved: "Beloved"
       },
@@ -196,6 +230,77 @@ class StrixhavenStudentSheet extends foundry.applications.api.HandlebarsApplicat
       },
       isEditable: this.actor.isOwner
     };
+  }
+
+  /* ---------------------------------------- */
+  /*  Apply user's background color on render */
+  /* ---------------------------------------- */
+
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const bgColor = context.bgColor;
+    const el = this.element;
+    // List of all overridable CSS variables
+    const vars = [
+      "--sm-bg", "--sm-bg-card", "--sm-bg-raised", "--sm-bg-inset",
+      "--sm-ink", "--sm-ink-bright", "--sm-ink-soft", "--sm-ink-faint",
+      "--sm-border", "--sm-border-hover",
+      "--sm-gold", "--sm-gold-bright", "--sm-gold-dim", "--sm-gold-border"
+    ];
+    if (bgColor) {
+      const isLight = this.#isLightColor(bgColor);
+      el.style.setProperty("--sm-bg", bgColor);
+      if (isLight) {
+        // Light theme overrides
+        el.style.setProperty("--sm-bg-card", this.#lighten(bgColor, -8));
+        el.style.setProperty("--sm-bg-raised", this.#lighten(bgColor, -14));
+        el.style.setProperty("--sm-bg-inset", this.#lighten(bgColor, -4));
+        el.style.setProperty("--sm-ink", "#2a2520");
+        el.style.setProperty("--sm-ink-bright", "#1a1510");
+        el.style.setProperty("--sm-ink-soft", "#5a5550");
+        el.style.setProperty("--sm-ink-faint", "#8a857e");
+        el.style.setProperty("--sm-border", "#ccc6bc");
+        el.style.setProperty("--sm-border-hover", "#b0a89c");
+        el.style.setProperty("--sm-gold", "#8b6914");
+        el.style.setProperty("--sm-gold-bright", "#6b4f0a");
+        el.style.setProperty("--sm-gold-dim", "rgba(139, 105, 20, 0.10)");
+        el.style.setProperty("--sm-gold-border", "rgba(139, 105, 20, 0.30)");
+      } else {
+        // Dark theme — derive shades, keep default ink/accent
+        el.style.setProperty("--sm-bg-card", this.#lighten(bgColor, 12));
+        el.style.setProperty("--sm-bg-raised", this.#lighten(bgColor, 20));
+        el.style.setProperty("--sm-bg-inset", this.#lighten(bgColor, -5));
+        // Remove any light overrides that may linger
+        ["--sm-ink", "--sm-ink-bright", "--sm-ink-soft", "--sm-ink-faint",
+         "--sm-border", "--sm-border-hover",
+         "--sm-gold", "--sm-gold-bright", "--sm-gold-dim", "--sm-gold-border"
+        ].forEach(v => el.style.removeProperty(v));
+      }
+    } else {
+      // Reset everything to CSS defaults
+      vars.forEach(v => el.style.removeProperty(v));
+    }
+  }
+
+  /** Lighten/darken a hex color by an amount (positive = lighter) */
+  #lighten(hex, amount) {
+    hex = hex.replace("#", "");
+    const num = parseInt(hex, 16);
+    let r = Math.min(255, Math.max(0, ((num >> 16) & 0xFF) + amount));
+    let g = Math.min(255, Math.max(0, ((num >> 8) & 0xFF) + amount));
+    let b = Math.min(255, Math.max(0, (num & 0xFF) + amount));
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+  }
+
+  /** Determine if a hex color is "light" (luminance > 0.5) */
+  #isLightColor(hex) {
+    hex = hex.replace("#", "");
+    const r = parseInt(hex.substring(0, 2), 16) / 255;
+    const g = parseInt(hex.substring(2, 4), 16) / 255;
+    const b = parseInt(hex.substring(4, 6), 16) / 255;
+    // Relative luminance
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance > 0.5;
   }
 
   /* ---------------------------------------- */
@@ -339,6 +444,12 @@ class StrixhavenStudentSheet extends foundry.applications.api.HandlebarsApplicat
     this.render();
   }
 
+  static async #onChangeSheetColor(_event, target) {
+    const color = target.dataset.color ?? "";
+    await game.user.setFlag(MODULE_ID, "sheetBgColor", color);
+    this.render();
+  }
+
   static async #onReset(_event, _target) {
     const confirmed = await foundry.applications.api.DialogV2.confirm({
       window: { title: "Strixhaven Memories" },
@@ -357,6 +468,12 @@ class StrixhavenStudentSheet extends foundry.applications.api.HandlebarsApplicat
 function openForActor(actor) {
   if (!actor) {
     ui.notifications?.warn("Strixhaven Memories: no actor provided.");
+    return;
+  }
+  // Singleton: if a sheet for this actor is already open, bring it to front
+  const existing = StrixhavenStudentSheet._instances.get(actor.id);
+  if (existing && existing.rendered) {
+    existing.bringToFront();
     return;
   }
   new StrixhavenStudentSheet(actor).render(true);
@@ -707,6 +824,12 @@ Hooks.on("dnd5e.restCompleted", async (actor, result, _config) => {
 
 Hooks.once("init", () => {
   console.log(`${MODULE_ID} | Initializing Strixhaven Memories`);
+
+  // Register Handlebars "eq" helper for template comparisons
+  if (!Handlebars.helpers.eq) {
+    Handlebars.registerHelper("eq", (a, b) => a === b);
+  }
+
   const mod = game.modules.get(MODULE_ID);
   if (mod) {
     mod.api = {
